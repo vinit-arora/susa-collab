@@ -1,0 +1,43 @@
+ 
+        :   ^7.2.0  ,
+      npm i  :   ~13.1.0  ,
+      npm i npm i   :   ~13.1.0  ,
+      npm i  :   ~13.1.0  ,
+      npm i  :   ~13.1.0  ,
+        :   ^0.10.1  ,
+      npm i   :   ~1.2.36  ,
+      npm i   :   ^5.15.4  ,
+      npm i   :   ^5.15.4  ,
+       :   ^5.15.4  ,
+       :   ^13.0.2  ,
+       :   ^13.0.2  ,
+        :   ^13.0.2  ,
+      colors  :   ^1.4.0  ,
+      dotenv  :   ^10.0.0  ,
+      firebase  :   ^9.18.0  ,
+      moment  :   ^2.29.1  ,
+       :   ^0.1.6  ,
+       :   ^6.0.0  ,
+        :   ~7.4.0  ,
+      :   ^2.3.0  ,
+      i  :   ^13.1.0  ,
+      zone.js  :   ~0.11.4  
+n
+npm i   ngx-emoji-picker  twemoj 
+
+rishurai@Rishus-MacBook-Air twitter-clone %  npm i  colors dotenv firebase moment  n
+
+
+       :   ~13.1.1  ,
+      npm i @angular/cli  :   ~13.1.1  ,
+      npm i @angular/compiler-cli  :   ~13.1.0  ,
+      npm i @types/jasmine  :   ~3.10.0  ,
+      npm i @types/node  :   ^12.11.1  ,
+      jasmine-core  :   ~3.10.0  ,
+      karma  :   ~6.3.0  ,
+      karma-chrome-launcher  :   ~3.1.0  ,
+      karma-coverage  :   ~2.1.0  ,
+      karma-jasmine  :   ~4.0.0  ,
+      karma-jasmine-html-reporter  :   ~1.7.0  ,
+      ts-node  :   ^10.4.0  ,
+      typescript  :   ~4.5.2  

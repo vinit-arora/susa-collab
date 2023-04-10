@@ -1,0 +1,110 @@
+<article class="feed">
+  <ul class="feed__container">
+    <ng-container *ngFor="let posts of feedPosts let i = index;">
+     
+      <li class="post">
+       
+        <div class="post__avatar">
+          <img
+            [src]="posts.authorName"
+            alt=""
+            (error)="onErrorImageUrl($event.target,posts.authorName)"
+          />
+        </div>
+        <div class="post__container">
+          <div class="info">
+            <h5 class="name">{{ posts.authorName }}</h5>
+            <span class="username">@{{ posts.authorName }}</span>
+          </div>
+          <span class="date-time">{{ posts.createdAt | customDate }}</span>
+          <div class="post" [innerHTML]="posts.content"></div>
+
+        <div>
+
+          <div class="post-info">
+            <div class="post-info__interactions">
+              <i class="btn btn--like">
+                <fa-icon [icon]="faHeart" size="sm"> </fa-icon>
+              </i>
+              
+            </div>
+            <div>{{posts.comments.length}}</div>
+            <div class="post-info__comments">{{posts.likes}}</div>
+            
+            <div class="post-info__interactions">
+              
+              <i class="btn btn--retweets">
+                <fa-icon [icon]="faRetweet" size="sm"></fa-icon>
+              </i>
+              
+            </div>
+
+          </div>
+
+
+           
+            <h5 class="postId ng-hide" [innerHTML]="posts.id"  #postId style="display:none" ></h5>
+       
+      </div>
+          <div class="actions">
+            <button class="actions__btn actions__btn--like">
+              <fa-icon [icon]="faHeart" size="sm"></fa-icon>
+              <span class="btn__text" (click)="increaseLike()"> Like</span>
+            </button>
+            
+            <button class="actions__btn actions__btn--comment"  (click)="toggleComment(i)" >
+              <fa-icon [icon]="faComment" size="sm"></fa-icon>
+              <span class="btn__text">Comment</span>  
+            </button>
+            <button class="actions__btn actions__btn--share">
+              <fa-icon [icon]="faShare" size="sm"></fa-icon>
+            </button>
+          </div>
+          
+          
+      
+        </div>
+       </li>
+        <div [hidden]="isHidden[i]" >
+
+          <div style="display: grid;">
+          
+            <div >
+              <div class="custom-input" #textContainer>
+                  <input [(ngModel)]= comment class="custom-input-textarea"  style="width:100%; height: 5vh;"/>
+                    <div
+                    
+                    
+                  ></div>
+              </div>
+              
+              <button class="btn btn--tweet" (click)="handleComment()" style="float: right;">
+                <span class="btn__text">Comment</span>
+              </button>
+            </div>
+            <div style="background-color: #1b2730;">
+            <div *ngFor="let comment of posts.comments " style="padding:2%;  ;
+            border-radius:5px;
+            margin: 6%; display:grid; 
+    background-color: black;"> 
+                <div>
+                  <div style="font-size: xx-small; margin-bottom: 3%;"> {{comment.author.name}}</div> 
+                  <!-- <div style="font-size: xx-small;"> {{comment.date}}</div>  -->
+                </div>
+               
+                <div style="margin-left: 10px;"> {{comment.content}}</div> 
+            </div>
+          </div></div>
+            
+            
+        </div>
+       
+  
+     </ng-container>
+
+      
+      
+
+    
+  </ul>
+</article>

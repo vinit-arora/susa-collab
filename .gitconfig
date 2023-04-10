@@ -1,0 +1,2 @@
+[filter "envClean"]
+    clean = `node git-attribute-clean.js`

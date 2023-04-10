@@ -1,0 +1,26 @@
+{
+  "projects": {
+    "default": "facebook-clone-c2cff",
+    "staging": "facebook-clone-c2cff"
+  },
+  "targets": {
+    "twitter-v2-clone": {
+      "hosting": {
+        "twitter-clone": [
+          "twitter-v2-clone"
+        ]
+      }
+    },
+    "facebook-clone-c2cff": {
+      "hosting": {
+        "twitter-clone": [
+          "twitter-clone-94d66"
+        ],
+        "susa-collab": [
+          "susa-collab"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
