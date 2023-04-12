@@ -1,23 +1,23 @@
 <article class="feed">
   <ul class="feed__container">
-    <ng-container *ngFor="let posts of feedPosts let i = index;">
+    <ng-container *ngFor="let post of feedPosts let i = index;">
      
       <li class="post">
        
         <div class="post__avatar">
           <img
-            [src]="posts.authorName"
+            [src]="post.authorName"
             alt=""
-            (error)="onErrorImageUrl($event.target,posts.authorName)"
+            (error)="onErrorImageUrl($event.target,post.authorName)"
           />
         </div>
         <div class="post__container">
           <div class="info">
-            <h5 class="name">{{ posts.authorName }}</h5>
-            <span class="username">@{{ posts.authorName }}</span>
+            <h5 class="name">{{ post.authorName }}</h5>
+            <span class="username">@{{ post.authorName }}</span>
           </div>
-          <span class="date-time">{{ posts.createdAt | customDate }}</span>
-          <div class="post" [innerHTML]="posts.content"></div>
+          <span class="date-time">{{ post.createdAt | customDate }}</span>
+          <div class="post" [innerHTML]="post.content"></div>
 
         <div>
 
@@ -28,8 +28,8 @@
               </i>
               
             </div>
-            <div>{{posts.comments.length}}</div>
-            <div class="post-info__comments">{{posts.likes}}</div>
+            <div>{{post.likes}}</div>
+            <div class="post-info__comments">{{post.comments.length}}</div>
             
             <div class="post-info__interactions">
               
@@ -43,13 +43,13 @@
 
 
            
-            <h5 class="postId ng-hide" [innerHTML]="posts.id"  #postId style="display:none" ></h5>
+            <h5 class="postId ng-hide" [innerHTML]="post.id"  #postId style="display:none" ></h5>
        
       </div>
           <div class="actions">
             <button class="actions__btn actions__btn--like">
               <fa-icon [icon]="faHeart" size="sm"></fa-icon>
-              <span class="btn__text" (click)="increaseLike()"> Like</span>
+              <span class="btn__text" (click)="increaseLike(post.id)"> Like</span>
             </button>
             
             <button class="actions__btn actions__btn--comment"  (click)="toggleComment(i)" >
@@ -78,21 +78,22 @@
                   ></div>
               </div>
               
-              <button class="btn btn--tweet" (click)="handleComment()" style="float: right;">
+              <button class="btn btn--tweet" (click)="handleComment(post.id)" style="float: right;">
                 <span class="btn__text">Comment</span>
               </button>
             </div>
             <div style="background-color: #1b2730;">
-            <div *ngFor="let comment of posts.comments " style="padding:2%;  ;
+            <div *ngFor="let comment of post.comments " style="padding:2%;  ;
             border-radius:5px;
-            margin: 6%; display:grid; 
+            margin: 2%; display:grid; 
     background-color: black;"> 
                 <div>
-                  <div style="font-size: xx-small; margin-bottom: 3%;"> {{comment.author.name}}</div> 
+                  <div style="font-size: xx-small; margin-bottom: 3%;"> @{{comment.author.name}}</div> 
                   <!-- <div style="font-size: xx-small;"> {{comment.date}}</div>  -->
                 </div>
                
                 <div style="margin-left: 10px;"> {{comment.content}}</div> 
+                <span style="font-size: xx-small; margin-top: 3%; float: right;">{{comment.date.substring(16,25)}}<br>{{comment.date.substring(3,15)}}</span>
             </div>
           </div></div>
             

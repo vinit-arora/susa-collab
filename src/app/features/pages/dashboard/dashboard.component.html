@@ -12,7 +12,7 @@
       <twitter-feed-post-card [profile]="User"></twitter-feed-post-card>
       <twitter-feed
         *ngIf="postPost$ | async as Post"
-        [feedPosts]="Post.posts"
+        [feedPosts]="Post.posts" [profile]="User"
       ></twitter-feed>
      
     </section>

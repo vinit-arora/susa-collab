@@ -11,6 +11,7 @@ import { selectAllFeedPosts } from '../store/posts/post-store.selectors';
 })
 export class FeatureFacadeService {
   
+  
    
 
   // private http= HttpClient;
@@ -60,7 +61,13 @@ export class FeatureFacadeService {
     console.log(PostsAction.fetchAllPosts());
     this.store.dispatch(PostsAction.fetchAllPosts());
   }
+  
+  fetchAllChannels(){
+    return this.firebasePostService.fetchAllChannels();
+  }
 
-
+  fetchMessages(Id: any) {
+   return this.firebasePostService.fetchMessages(Id);
+  }
 
 }

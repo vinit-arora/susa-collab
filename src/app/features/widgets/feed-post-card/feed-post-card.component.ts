@@ -32,6 +32,7 @@ export class FeedPostCardComponent implements OnInit, AfterViewChecked {
   constructor(private featureFacade: FeatureFacadeService) { }
 
   ngOnInit(): void {
+   
   }
 
   ngAfterViewChecked(): void {
