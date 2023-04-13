@@ -12,6 +12,7 @@ import { FeatureFacadeService } from '../../services/feature-facade.service';
 import 'firebase/compat/database';
  
  
+ 
 
 
 
@@ -26,6 +27,7 @@ export class FeedComponent implements OnChanges,OnInit{
 
   @ViewChild('textInput') textInput!: ElementRef;
   @ViewChild('textContainer') textContainer!: ElementRef;
+  @ViewChild('fileInput') fileInput!: ElementRef;
   @Input() feedPosts: Post[] = [];
   @Input() profile!: Partial<UserProfile>;
 
@@ -43,7 +45,8 @@ export class FeedComponent implements OnChanges,OnInit{
   comment:any;
   isHidden: boolean[]=[];
   emojiToggle: boolean = false;
-
+  commentList: Map<String, Comment[]> = new Map();
+  
 
 
    constructor(private featureFacade: FeatureFacadeService) { }
@@ -67,6 +70,7 @@ export class FeedComponent implements OnChanges,OnInit{
 
   textInputHandler($event: any) {
     this.textArea = $event.target.textContent;
+   
     this.handleUrlMatches();
   }
   
@@ -79,9 +83,11 @@ export class FeedComponent implements OnChanges,OnInit{
   }
   
   handleComment(postId:String) {
-    console.log(this.profile)
+     
+   
+    const postText = this.textContainer.nativeElement.innerHTML;
     const comment: Partial<Comment> = {
-                                     content:this.comment,
+                                     content:postText,
                                      date: (new Date()).toString(),
                                       author:{
                                         name: this.profile.displayName || "",
@@ -89,16 +95,47 @@ export class FeedComponent implements OnChanges,OnInit{
                                      
                                     }
 
- 
-    
-    
-    console.log(postId+":postId");
-
     this.featureFacade.postComment(comment,postId);
+    this.textInput.nativeElement.innerHTML = "";
+    this.fileInput.nativeElement.innerHTML="";
+    this.textArea = "";
+    this.url_matches = []
      
   }
-  toggleComment(index: number) {
+  handleFileInput(event: any) {
+    const file = event.target.files[0];
+   
+    const reader = new FileReader();
+    
+    reader.readAsText(file);
+
+    reader.onload = (e: any) => {
+      console.log('onload event triggered!');
+      const div = document.createElement('div');
+  
+      div.classList.add('text-file-container');
+      
+      div.innerHTML = reader.result as string;
+      const s:any=reader.result;
+       console.log(s);
+      this.textInput.nativeElement.appendChild(div);
+     
+    };
+   
+    
+  }
+  
+  toggleComment(index: number,postId:String) {
+    console.log(index)
+    
       this.isHidden[index] = !this.isHidden[index];
+      this.featureFacade.fetchComments(postId).then((x)=>{
+        x.reverse();
+        this.commentList.set(postId,x)
+      });
+      
+     
+          
     }
  
   increaseLike(postId:any){
@@ -110,8 +147,22 @@ export class FeedComponent implements OnChanges,OnInit{
     target.src = api;
   }
  
+  handleImageUpload(image: any) {
+    const file: File = image.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.createCustomImage(reader.result as any);
+    };
+  }
 
 
- 
+  createCustomImage(base64: string) {
+    const div = document.createElement('div');
+    div.classList.add('tweet-image-container');
+    div.innerHTML = `<br><img src="${base64}" alt="">`;
+    this.textInput.nativeElement.appendChild(div);
+  }
+
 
 }

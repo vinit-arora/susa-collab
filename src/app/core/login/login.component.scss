@@ -1,7 +1,7 @@
 .login {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: var(--color-text);
+  background: #ebedf0;
   height: 100%;
   width: 100%;
 
@@ -18,7 +18,7 @@
   }
 
   &__form {
-    background: var(--color-text);
+    background: #ebedf0;
     --form-width: 360px;
     padding: var(--spacing-xl);
     .ng-fa-icon {
@@ -26,7 +26,7 @@
     }
 
     .labels {
-      color: var(--color-background);
+      color: var(--color-text);
       &__header {
         font-size: 4em;
       }
@@ -43,7 +43,7 @@
       margin-top: var(--spacing-large);
       &__input {
         border: var(--border-width-lg) solid var(--feature-color);
-        background-color: var(--color-text);
+        background-color: var(--color-background-secondary);
         height: 50px;
         width: var(--form-width);
         padding: var(--spacing-base);
@@ -71,11 +71,11 @@
       &__button {
         height: 50px;
         width: var(--form-width);
-        background-color: var(--feature-color);
-        border: none;
+        background-color: var(--color-background);
+        border: var(--border-width-lg) solid var(--feature-color);
         padding: var(--spacing-base);
         border-radius: var(--border-radius-xl);
-        color: var(--color-text);
+        color: var(--feature-color);
         cursor: pointer;
         font-size: var(--font-size-h4);
         font-weight: var(--font-weight-bold);
@@ -110,7 +110,7 @@
           gap: var(--spacing-base);
           border-radius: var(--border-radius-xl);
           border: var(--border-width-lg) solid var(--feature-color);
-          background-color: var(--color-text);
+          background-color: var(--color-background);
           transition: all 0.3s ease-in-out;
           &:hover {
             background-color: var(--feature-color);

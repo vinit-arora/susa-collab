@@ -18,7 +18,7 @@
   &__form {
     --form-width: 360px;
     padding: var(--spacing-xl);
-    background: var(--color-text);
+    background: var(--color-background);
     .ng-fa-icon {
       color: var(--feature-color);
     }
@@ -41,7 +41,7 @@
       margin-top: var(--spacing-large);
       &__input {
         border: var(--border-width-lg) solid var(--feature-color);
-        background-color: var(--color-text);
+        background-color: var(--color-background);
         height: 50px;
         width: var(--form-width);
         padding: var(--spacing-base);
@@ -69,8 +69,8 @@
       &__button {
         height: 50px;
         width: var(--form-width);
-        background-color: var(--feature-color);
-        border: none;
+        background-color: var(--color-background);
+        border: var(--border-width-lg) solid var(--feature-color);
         padding: var(--spacing-base);
         border-radius: var(--border-radius-xl);
         color: var(--color-text);
@@ -108,7 +108,7 @@
           gap: var(--spacing-base);
           border-radius: var(--border-radius-xl);
           border: var(--border-width-lg) solid var(--feature-color);
-          background-color: var(--color-text);
+          background-color: var(--feature-colors);
           transition: all 0.3s ease-in-out;
           &:hover {
             background-color: var(--feature-color);
@@ -121,7 +121,7 @@
           &:active {
             background-color: var(--feature-color);
             opacity: 0.6;
-            color: var(--color-text);
+            color: white;
             .ng-fa-icon {
               color: var(--color-text);
             }

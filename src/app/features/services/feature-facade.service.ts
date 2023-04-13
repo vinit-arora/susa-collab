@@ -45,7 +45,9 @@ export class FeatureFacadeService {
     return this.firebasePostService.increaseLikes(postId);
   }
    
-
+  fetchComments(postId: any){
+    return this.firebasePostService.fetchComments(postId);
+  }
   getAllPosts() {
    let x= this.store.select(selectAllFeedPosts);
    console.log(x);

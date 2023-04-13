@@ -85,7 +85,7 @@ export class FeedPostCardComponent implements OnInit, AfterViewChecked {
   createCustomImage(base64: string) {
     const div = document.createElement('div');
     div.classList.add('tweet-image-container');
-    div.innerHTML = `<br> <br> <br> <img src="${base64}" alt="">`;
+    div.innerHTML = `<br> <img src="${base64}" alt="">`;
     this.textInput.nativeElement.appendChild(div);
   }
 
