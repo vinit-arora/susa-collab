@@ -88,13 +88,13 @@ export class FeedComponent implements OnChanges,OnInit{
     const postText = this.textContainer.nativeElement.innerHTML;
     const comment: Partial<Comment> = {
                                      content:postText,
-                                     date: (new Date()).toString(),
+                                     createdAt: (new Date()).toString(),
                                       author:{
                                         name: this.profile.displayName || "",
                                         email:""}
                                      
                                     }
-
+                                
     this.featureFacade.postComment(comment,postId);
     this.textInput.nativeElement.innerHTML = "";
     this.fileInput.nativeElement.innerHTML="";
@@ -129,10 +129,12 @@ export class FeedComponent implements OnChanges,OnInit{
     console.log(index)
     
       this.isHidden[index] = !this.isHidden[index];
-      this.featureFacade.fetchComments(postId).then((x)=>{
-        x.reverse();
-        this.commentList.set(postId,x)
-      });
+      if(this.isHidden[index]==false)
+        this.featureFacade.fetchComments(postId).then((x)=>{
+          x.reverse();
+          this.commentList.set(postId,x)
+          console.log(this.commentList)
+        });
       
      
           

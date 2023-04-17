@@ -6,7 +6,7 @@ export interface Comment {
           name: String, // name of the comment's author
           email: string, // email address of the comment's author
         },
-        date: string // date the comment was created
+        createdAt: any // date the comment was created
       
     
   }

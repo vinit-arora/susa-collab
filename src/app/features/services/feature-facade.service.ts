@@ -1,15 +1,19 @@
 import { CoreFacadeService } from '../../core/services/core-facade.service';
 import { FirebasePostsService } from './firebase-tweets.service';
+import { FirebaseMessageService } from './firebase-message.service';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as PostsAction from '../store/posts/post-store.actions';
 import { selectAllFeedPosts } from '../store/posts/post-store.selectors';
+import { Message } from '../models/message.model';
+import { Comment } from '../models/comment.model';
  
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeatureFacadeService {
+ 
   
   
    
@@ -19,6 +23,7 @@ export class FeatureFacadeService {
     private store: Store<any>,
     private coreFacade: CoreFacadeService,
     private firebasePostService: FirebasePostsService,
+    private firebaseMessageService:FirebaseMessageService
     
    ) { }
 
@@ -37,8 +42,8 @@ export class FeatureFacadeService {
   postPost(comment: any) {
     return this.firebasePostService.postPosts(comment);
   }
-  postComment(tweet: any,postId: String) {
-    return this.firebasePostService.postComments(tweet,postId);
+  postComment(comment: any,postId: String) {
+    return this.firebasePostService.postComments(comment,postId);
   }
 
   increaseLike(postId: String) {
@@ -65,11 +70,18 @@ export class FeatureFacadeService {
   }
   
   fetchAllChannels(){
-    return this.firebasePostService.fetchAllChannels();
+    return this.firebaseMessageService.fetchAllChannels()
   }
 
-  fetchMessages(Id: any) {
-   return this.firebasePostService.fetchMessages(Id);
+  fetchMessages(channelName: string) {
+   return this.firebaseMessageService.fetchMessages(channelName);
   }
+  sendMessage(channelId: string, message: any) {
+   return this.firebaseMessageService.sendMessage(channelId,message);
+  }
+  joinChannel(channelName: any, email:any) {
+   return this.firebaseMessageService.joinChannel(channelName,email);
+  }
+  
 
 }

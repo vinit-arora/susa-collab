@@ -1,7 +1,7 @@
 <div class="container">
     <h3 class=" text-center">Messaging</h3>
     <div class="messaging">
-        <div class="inbox_msg">
+        <div class="inbox_msg"  >
             <div class="inbox_people">
                 <div class="headind_srch">
                     <div class="recent_heading">
@@ -11,62 +11,105 @@
                 </div>
                 <div class="inbox_chat">
 
-                    <ng-container *ngFor="let channel of channelsList let i = index;">
+                    <ng-container *ngFor="let channel of channelList | keyvalue let i = index;">
 
-                        <div class="chat_list active_chat" (click)="selectChannel(channel)">
+                        <div class="chat_list active_chat" (click)="selectChannel(channel.key)">
 
                             <div class="chat_people">
 
-                                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                        alt="sunil"> </div>
+                                
 
                                 <div class="chat_ib">
-                                    <h5>#{{channel.channelName}} <span class="chat_date">Dec 25</span></h5>
+                                    <h5>#{{channel.key}} </h5>
+                                    <button (click)="followChannel(channel.key)"
+                                        *ngIf="!profile.joinedChannels.includes(channel.key)"> Join</button>
 
                                 </div>
-
                             </div>
-
+                            
                         </div>
                     </ng-container>
                 </div>
-
             </div>
-            <div class="mesgs">
-                <div class="msg_history">
 
-                    <ng-container *ngFor="let message of messages let i = index;">
-                        <div class="incoming_msg">
+            <div class="mesgs" *ngIf="profile.joinedChannels.includes(currentChannelId); else joinChannel">
+                <div class="msg_history" >
+                    <ng-container *ngFor="let message of messages let i = index;"  >
+                        <div class="incoming_msg" *ngIf="profile.email!=message.author.email; else outgoing"> 
                             <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
+                                    alt="sunil"></div> 
+                                    <span>@{{message.author.name}} </span>
+                                    <br>
+                                    <span class="time_date">{{ message.createdAt | date:'shortTime' }} {{ message.createdAt | date:'mediumDate' }} 
+                                    </span>
                             <div class="received_msg">
                                 <div class="received_withd_msg">
-                                    <p>{{message.content}}</p>
-                                    <span class="time_date"> 11:01 AM | June 9</span>
+                                    <div  [innerHTML]="message.content"> </div>
+                                   
                                 </div>
                                 <br>
                             </div>
                         </div>
+                        <ng-template  #outgoing>
+                            
+                            <div class="outgoing_msg">
+                                
+                                <div class="sent_msg">
+                                    <div class="sent_withd_msg">
+                                    <div  [innerHTML]="message.content"> </div>
+                                    <span class="time_date">{{ message.createdAt | date:'shortTime' }} {{ message.createdAt | date:'mediumDate' }} 
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="outgoing_msg_img">  <img src="https://ptetutorials.com/images/user-profile.png"
+                                    alt="sunil" style="float: right;">
+                                    <!-- <span>@{{message.author.name}} </span>
+                                    <br>
+                                    <span class="time_date">{{ message.createdAt | date:'shortTime' }} {{ message.createdAt | date:'mediumDate' }} 
+                                    </span> -->
+                                </div>
+                               
+                            </div>
+                        </ng-template>
                     </ng-container>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
-                            <span class="time_date"> 11:01 AM | June 9</span>
-                        </div>
-                    </div>
-
-
+                    
                 </div>
                 <div class="type_msg">
-                    <div class="input_msg_write">
-                        <input type="text" class="write_msg" placeholder="Type a message" />
-                        <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o"
-                                aria-hidden="true"></i></button>
+                    <div class="input_msg_write" >
+                        <!-- <input type="text" class="write_msg" placeholder="Type a message" /> -->
+
+
+
+                        <div class="custom-input" #textContainer>
+                            <div class="custom-input-textarea" contenteditable="true"
+                                [ngClass]="{ active: textArea.length }" (input)="textInputHandler($event)" #textInput>
+                            </div>
+
+                        </div>
                     </div>
+                    <div class="form-group">
+                        <hr>
+                        <button class="btn btn--picture" (click)="imageInput.click()">
+                            <fa-icon [icon]="faPicture" size="lg"></fa-icon>
+                            <span class="btn__text"> Picture </span>
+                        </button>
+
+                   
+                    <input #imageInput class="image-upload" type="file" accept="image/*" [hidden]="true"
+                        (change)="handleImageUpload(imageInput)" />
+
+                    <button (click)="sendMessage()" style="float: right;">Send</button>
                 </div>
+                </div>
+
             </div>
+            <ng-template #joinChannel>
+                <div style="display: table; margin: 0 auto;">
+                    Follow Please
+                  </div>
+              </ng-template>
         </div>
+
 
 
 

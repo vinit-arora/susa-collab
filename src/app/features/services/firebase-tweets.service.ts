@@ -2,7 +2,7 @@ import { Observable, shareReplay, take, map } from 'rxjs';
 import { FirebaseAuthService } from '../../core/services/firebase-auth.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { DocumentReference,updateDoc,doc, getFirestore,  arrayUnion, increment, collection, query, getDocs, where, setDoc, addDoc, getDoc } from 'firebase/firestore';
+import { DocumentReference,updateDoc,doc, getFirestore,  arrayUnion, increment, collection, query, getDocs, where, setDoc, addDoc, getDoc, orderBy } from 'firebase/firestore';
 import { Post } from '../models/post.model';
 import { Comment } from '../models/comment.model';
 import { now } from 'moment';
@@ -79,12 +79,13 @@ export class FirebasePostsService {
     const postSnap = await getDoc(postRef);
     const post = postSnap.data() as Post;
 
-    const commentsQuery = query(collection(this.afs.firestore, `posts/${postId}/comments`));
+    const commentsQuery = query(collection(this.afs.firestore, `posts/${postId}/comments`),orderBy('createdAt','asc'));
     const commentsSnap = await getDocs(commentsQuery);
 
     const commentsList:Comment[]=[];
     const comments = commentsSnap.docs.map((doc) => { 
-    commentsList.push(doc.data() as Comment)});
+    commentsList.push(doc.data() as Comment)
+  console.log(doc.data())});
 
     return commentsList;
    
@@ -120,47 +121,8 @@ export class FirebasePostsService {
     return userList;
   }
 
-  fetchAllChannels=async()=> {
-    const q = query(collection(this.afs.firestore, "channels"));
-    const querySnapshot = await getDocs(q);
+  
 
-    const channeList: {}[] = [];
-    querySnapshot.forEach((doc) => {
-      // console.log(doc.id, " => ", doc.data());
-      channeList.push(doc.data());
-    });
-    
-    return channeList;
-  }
-
-  fetchMessages=async(Id: any) =>{
-    
-
-    const q = query(collection(this.afs.firestore, "channels"),where("channelId","==",Id));
-    const querySnapshot = await getDocs(q);
-    let messages:any[]=[];
-    console.log("searching channel wiht Id: "+ Id)
-
-     querySnapshot.forEach(async(doc) => {
-      // console.log(doc.id, " => ", doc.data());
-      if (querySnapshot.size > 0) {
-        
-        const groupDoc = querySnapshot.docs[0];
-        console.log(groupDoc.id);
-         const tq=query(collection(this.afs.firestore,`channels/${groupDoc.id}/messages`));
-         const tquerySnapshot = await getDocs(tq);
-         tquerySnapshot.forEach((doc)=>{
-          
-          
-          messages.push(doc.data());
-
-         })
-         
-      }
-       
-    });
-    
-    return messages;
-  }
+  
 
 }

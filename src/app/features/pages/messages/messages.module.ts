@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MessagesRoutingModule } from './messages-routing.module';
 import { MessagesComponent } from './messages.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
  
 
 @NgModule({
@@ -11,7 +12,8 @@ import { MessagesComponent } from './messages.component';
   ],
   imports: [
     CommonModule,
-    MessagesRoutingModule
+    MessagesRoutingModule,
+    FontAwesomeModule
   ]
 })
 export class MessagesModule { }
