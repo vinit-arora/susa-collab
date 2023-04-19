@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FeatureFacadeService } from '../../services/feature-facade.service';
+import { UserProfile } from '../../../core/models/user-profile.model';
  
 
 @Component({
@@ -8,16 +9,27 @@ import { FeatureFacadeService } from '../../services/feature-facade.service';
   styleUrls: ['./follow-suggestion.component.scss']
 })
 export class FollowSuggestionComponent implements OnInit {
-
+  @Input() profile!: Partial<UserProfile>;
   followSuggestionList:any;
   constructor(private featureFacade: FeatureFacadeService) {
    
    }
 
   ngOnInit(): void {
+  
+   this.featureFacade.fetchAllProfiles().then((x)=>{
+   
     console.log("profile data for follow suggestion");
-   this.featureFacade.fetchAllProfiles().then((x)=>{this.followSuggestionList=x ;console.log(x)});
-
+    // console.log(x)
+    this.followSuggestionList=x ;
+  console.log(this.followSuggestionList)});
+   
+  //  console.log(this.followSuggestionList)
+  }
+  followUser(id:string){
+    const x=this.profile.uid!;
+    // if(!x) x="";
+    this.featureFacade.followUser(x,id);
   }
 
 }

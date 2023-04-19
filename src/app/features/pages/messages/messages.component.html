@@ -1,5 +1,5 @@
 <div class="container">
-    <h3 class=" text-center">Messaging</h3>
+    <h3 class=" text-center">Channels</h3>
     <div class="messaging">
         <div class="inbox_msg"  >
             <div class="inbox_people">
@@ -20,11 +20,13 @@
                                 
 
                                 <div class="chat_ib">
+                                    <img src="{{channel.value.iconURL}}">
                                     <h5>#{{channel.key}} </h5>
-                                    <button (click)="followChannel(channel.key)"
+                                </div>
+                                    <button class="join_btn" (click)="followChannel(channel.key)"
                                         *ngIf="!profile.joinedChannels.includes(channel.key)"> Join</button>
 
-                                </div>
+                                
                             </div>
                             
                         </div>
@@ -34,7 +36,7 @@
 
             <div class="mesgs" *ngIf="profile.joinedChannels.includes(currentChannelId); else joinChannel">
                 <div class="msg_history" >
-                    <ng-container *ngFor="let message of messages let i = index;"  >
+                    <ng-container *ngFor="let message of messages|async let i = index;"  >
                         <div class="incoming_msg" *ngIf="profile.email!=message.author.email; else outgoing"> 
                             <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
                                     alt="sunil"></div> 

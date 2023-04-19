@@ -3,7 +3,7 @@
     <section class="dashboard__section left">
       <div class="section-items">
         <twitter-profile-card [userProfile]="User"></twitter-profile-card>
-        <twitter-follow-suggestion></twitter-follow-suggestion>
+        <twitter-follow-suggestion [profile]="User"></twitter-follow-suggestion>
         <button onclick="subscribeForEvents()">Subscribe</button>
       </div>
      

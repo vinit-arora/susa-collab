@@ -31,12 +31,13 @@ export class CreateProfileComponent implements OnInit {
       displayName: this.displayName,
       bio: this.bio,
       userId: this.userId,
-      photoUrl: userInfo.photoUrl || '',
+      photoUrl: userInfo.photoUrl || 'https://thumbs.dreamstime.com/b/white-thin-lineart-hacker-coder-icon-blue-background-117619944.jpg',
       email: userInfo.email || '',
       createdAt: new Date(),
       updatedAt: new Date(),
-      followers: 0,
-      following: 0
+      followers: [],
+      following: [],
+      joinedChannels:[]
     }
 
     this.coreFacade.createProfile(profile);

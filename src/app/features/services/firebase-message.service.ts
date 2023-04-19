@@ -59,19 +59,24 @@ export class FirebaseMessageService {
     let messages:any[]=[];
    
  
-         const tq=query(collection(this.afs.firestore,`channels/${Id}/messages`),orderBy('createdAt', 'asc'));
-         const tquerySnapshot = await getDocs(tq);
-         tquerySnapshot.forEach((doc)=>{
+        //  const tq=query(collection(this.afs.firestore,`channels/${Id}/messages`),orderBy('createdAt', 'asc'));
+        //  const tquerySnapshot = await getDocs(tq);
+        //  tquerySnapshot.forEach((doc)=>{
           
-          console.log(doc.data());
+        //   console.log(doc.data());
           
-          messages.push(doc.data());
+        //   messages.push(doc.data());
 
-          
-    });
+          const messageRef = this.afs.collection(`channels/${Id}/messages`, ref => {
+            return ref.orderBy('createdAt', 'asc');
+          });
+          return messageRef.valueChanges()
     
-    return messages;
-  }
+    
+    
+  // })
+  // return messages;
+}
 
   sendMessage=async(Id:any, message:Message)=>{
     

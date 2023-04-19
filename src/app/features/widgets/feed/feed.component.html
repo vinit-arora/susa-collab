@@ -62,15 +62,15 @@
               <fa-icon [icon]="faShare" size="sm"></fa-icon>
             </button>
           </div>
-          <div [hidden]="isHidden[i]"  >
+          <div [hidden]="isHidden[i]">
             <hr style="background-color: aliceblue; border-radius: 2%;">
             <div style="display: grid;">
 
               <div class="comment-input">
-                <div class="custom-input" #textContainer>
+                <div class="custom-input"  #textContainer  [id]="'textContainer' + i">
 
                   <div class="custom-input-textarea" contenteditable="true" [ngClass]="{ active: textArea.length }"
-                    (input)="textInputHandler($event)" #textInput></div>
+                    (input)="textInputHandler($event)"  [id]="'textInput' + i" #textInput></div>
                 </div>
                 <div style="display: flex;">
                   <div class="feedpost__post-form-buttons">
@@ -81,7 +81,8 @@
 
                   </div>
 
-                  <input type="file" (change)="handleFileInput($event)" value="Select file" #fileInput class="file-input">
+                  <input type="file" (change)="handleFileInput($event)" value="Select file" #fileInput
+                    class="file-input">
                   <div class="file-preview"></div>
 
                   <button class="btn btn--tweet" (click)="handleComment(post.id)" style=" margin-left: auto; ">
@@ -94,19 +95,17 @@
 
 
 
-              <ng-container *ngFor="let comment as Comment of commentList.get(post.id) " >
+              <ng-container *ngFor="let comment  of commentList.get(post.id) | async">
                 <div class="comments">
                   <div style="display: inline-block;">
                     <span style="font-size: xx-small; margin-bottom: 3%; "> @{{comment.author.name}}</span>
-                    <span
-                      class="time_date" style="font-size: xx-small; margin-top: 3%; float: right;">{{ comment.createdAt | date:'shortTime' }} {{ comment.createdAt | date:'mediumDate' }} 
-                     </span>
-                    </div>
-  
+                    <span class="time_date" style="font-size: xx-small; margin-top: 3%; float: right;">{{
+                      comment.createdAt | date:'shortTime' }} {{ comment.createdAt | date:'mediumDate' }}
+                    </span>
+                  </div>
                   <div style="margin-left: 10px;" [innerHTML]="comment.content"> </div>
                 </div>
-
-                </ng-container>
+              </ng-container>
 
               <input #imageInput class="image-upload" type="file" accept="image/*" [hidden]="true"
                 (change)="handleImageUpload(imageInput)" />

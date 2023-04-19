@@ -1,18 +1,22 @@
 import { CoreFacadeService } from '../../core/services/core-facade.service';
 import { FirebasePostsService } from './firebase-tweets.service';
 import { FirebaseMessageService } from './firebase-message.service';
+import { FirebaseFollowService } from './firebase-follow.service';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as PostsAction from '../store/posts/post-store.actions';
 import { selectAllFeedPosts } from '../store/posts/post-store.selectors';
+
 import { Message } from '../models/message.model';
 import { Comment } from '../models/comment.model';
+import { from } from 'rxjs';
  
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeatureFacadeService {
+  
  
   
   
@@ -23,7 +27,8 @@ export class FeatureFacadeService {
     private store: Store<any>,
     private coreFacade: CoreFacadeService,
     private firebasePostService: FirebasePostsService,
-    private firebaseMessageService:FirebaseMessageService
+    private firebaseMessageService:FirebaseMessageService,
+    private firebaseFollowService: FirebaseFollowService
     
    ) { }
 
@@ -38,7 +43,9 @@ export class FeatureFacadeService {
   getUserProfile() {
     return this.coreFacade.getUserProfile();
   }
-
+  followUser(currentId: string,id:string) {
+    return this.firebaseFollowService.followUser(currentId,id)
+  }
   postPost(comment: any) {
     return this.firebasePostService.postPosts(comment);
   }

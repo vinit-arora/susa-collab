@@ -4,6 +4,7 @@ import { FeatureFacadeService } from '../../services/feature-facade.service';
 import { Message } from '../../models/message.model';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faImages } from '@fortawesome/free-solid-svg-icons';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'twitter-messages',
   templateUrl: './messages.component.html',
@@ -22,7 +23,7 @@ export class MessagesComponent implements OnInit {
 
   channelList:Map<string,any>=new Map();
   fileToUpload: File | null = null;
-  messages:any[]=[];
+  messages:Observable<any[]>=new Observable;
   currentChannelId:string=""
   constructor(private featureFacade: FeatureFacadeService) { }
   
@@ -47,7 +48,7 @@ export class MessagesComponent implements OnInit {
   selectChannel(channelId:any){
     console.log("fetching messages from: "+channelId);
     this.currentChannelId=channelId;
-    this.messages=[];
+    // this.messages.
     this.featureFacade.fetchMessages(channelId).then((x)=>{
        this.messages=x;
     })

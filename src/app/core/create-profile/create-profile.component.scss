@@ -4,7 +4,7 @@
   width: 100%;
   height: 100%;
   padding: var(--spacing-large);
-  background-color: var(--color-text);
+  background-color: var(--color-background);
   color: var(--color-background);
   justify-content: center;
   align-items: center;
@@ -34,7 +34,7 @@
 
       &__input {
         border: var(--border-width-lg) solid var(--feature-color);
-        background-color: var(--color-text);
+        background-color: var(--color-background-secondary);
         height: 50px;
         width: var(--form-width);
         padding: var(--spacing-base);

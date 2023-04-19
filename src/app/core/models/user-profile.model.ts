@@ -5,8 +5,9 @@ export interface UserProfile {
   userId: string;
   photoUrl: string;
   bio: string;
-  followers: number;
-  following: number;
+  followers:string[];
+  following:string[];
+  joinedChannels:string[];
   createdAt: Date;
   updatedAt: Date;
   dataStatus?: string;

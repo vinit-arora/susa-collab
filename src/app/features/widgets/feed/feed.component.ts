@@ -1,5 +1,5 @@
 import { UserProfile } from '../../../core/models/user-profile.model';
-import { Component, Input, OnChanges, OnInit, SimpleChanges,ViewChild, ElementRef, AfterViewChecked} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges,QueryList, ViewChild,ViewChildren, ElementRef, AfterViewChecked} from '@angular/core';
 import { IconDefinition, faHeart, faRetweet, faShareSquare, faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import { Post } from '../../models/post.model';
 import { Comment } from '../../models/comment.model';
@@ -10,6 +10,7 @@ import { FeatureFacadeService } from '../../services/feature-facade.service';
  
  
 import 'firebase/compat/database';
+import { Observable } from 'rxjs';
  
  
  
@@ -25,12 +26,16 @@ import 'firebase/compat/database';
 })
 export class FeedComponent implements OnChanges,OnInit{
 
-  @ViewChild('textInput') textInput!: ElementRef;
-  @ViewChild('textContainer') textContainer!: ElementRef;
+   
+ 
+  @ViewChild('textContainer', { static: false }) textContainer!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef;
   @Input() feedPosts: Post[] = [];
   @Input() profile!: Partial<UserProfile>;
+  @ViewChildren('textInput') textInputs!: QueryList<ElementRef>;
+  @ViewChildren('textContainer') textContainers!: QueryList<ElementRef>;
 
+   
   faHeart: IconDefinition = faHeart;
   faRetweet: IconDefinition = faRetweet;
   faShare: IconDefinition = faShareSquare;
@@ -45,11 +50,12 @@ export class FeedComponent implements OnChanges,OnInit{
   comment:any;
   isHidden: boolean[]=[];
   emojiToggle: boolean = false;
-  commentList: Map<String, Comment[]> = new Map();
+  commentList: Map<String,Observable< any[]>> = new Map();
+  currentCommentIndex:number=0;
   
 
 
-   constructor(private featureFacade: FeatureFacadeService) { }
+   constructor(private featureFacade: FeatureFacadeService, private elRef: ElementRef) { }
 
    ngOnInit(){
      
@@ -57,8 +63,7 @@ export class FeedComponent implements OnChanges,OnInit{
     console.log(this.profile);
      
    }
-   
-
+    
    
   ngOnChanges(): void {
 
@@ -68,41 +73,51 @@ export class FeedComponent implements OnChanges,OnInit{
   }
   
 
-  textInputHandler($event: any) {
+  textInputHandler($event: any ) {
     this.textArea = $event.target.textContent;
-   
+    console.log(this.textArea)
     this.handleUrlMatches();
   }
   
   handleUrlMatches() {
     const urlMatches = this.textArea.match(/\b(http|https)?:\/\/\S+/gi) || [];
     urlMatches.forEach(url => {
-      this.textInput.nativeElement.innerHTML = this.textInput.nativeElement.innerHTML.replace(url, ``);
+      this.textInputs.toArray()[this.currentCommentIndex].nativeElement.innerHTML = this.textInputs.toArray()[this.currentCommentIndex].nativeElement.innerHTML.replace(url, ``);
       this.url_matches.push(url);
     });
   }
   
   handleComment(postId:String) {
      
-   
-    const postText = this.textContainer.nativeElement.innerHTML;
+    console.log("postText" )
+     
+    const postText = this.textContainers.toArray()[this.currentCommentIndex].nativeElement.innerHTML;
     const comment: Partial<Comment> = {
-                                     content:postText,
+                                    content:postText,
                                      createdAt: (new Date()).toString(),
                                       author:{
                                         name: this.profile.displayName || "",
-                                        email:""}
+                                        email:this.profile.email|| ""}
                                      
-                                    }
+                                 }
+
+              
                                 
+   
+    
+     
+
+
     this.featureFacade.postComment(comment,postId);
-    this.textInput.nativeElement.innerHTML = "";
+
+    this.textInputs.toArray()[this.currentCommentIndex].nativeElement.innerHTML = "";
     this.fileInput.nativeElement.innerHTML="";
     this.textArea = "";
     this.url_matches = []
-     
+   
+    
   }
-  handleFileInput(event: any) {
+  handleFileInput(event: any ) {
     const file = event.target.files[0];
    
     const reader = new FileReader();
@@ -118,7 +133,7 @@ export class FeedComponent implements OnChanges,OnInit{
       div.innerHTML = reader.result as string;
       const s:any=reader.result;
        console.log(s);
-      this.textInput.nativeElement.appendChild(div);
+      this.textInputs.toArray()[this.currentCommentIndex].nativeElement.appendChild(div);
      
     };
    
@@ -129,11 +144,12 @@ export class FeedComponent implements OnChanges,OnInit{
     console.log(index)
     
       this.isHidden[index] = !this.isHidden[index];
+      this.currentCommentIndex=index;
       if(this.isHidden[index]==false)
         this.featureFacade.fetchComments(postId).then((x)=>{
-          x.reverse();
+          console.log(x)
           this.commentList.set(postId,x)
-          console.log(this.commentList)
+          // console.log(this.commentList)
         });
       
      
@@ -163,7 +179,7 @@ export class FeedComponent implements OnChanges,OnInit{
     const div = document.createElement('div');
     div.classList.add('tweet-image-container');
     div.innerHTML = `<br><img src="${base64}" alt="">`;
-    this.textInput.nativeElement.appendChild(div);
+    this.textInputs.toArray()[this.currentCommentIndex].nativeElement.appendChild(div);
   }
 
 
