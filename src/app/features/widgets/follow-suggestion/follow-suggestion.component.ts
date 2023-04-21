@@ -18,13 +18,12 @@ export class FollowSuggestionComponent implements OnInit {
   ngOnInit(): void {
   
    this.featureFacade.fetchAllProfiles().then((x)=>{
-   
+    // this.followSuggestionList=this.profile.following ;
     console.log("profile data for follow suggestion");
-    // console.log(x)
-    this.followSuggestionList=x ;
-  console.log(this.followSuggestionList)});
+    this.followSuggestionList=x;
+    })
+    
    
-  //  console.log(this.followSuggestionList)
   }
   followUser(id:string){
     const x=this.profile.uid!;

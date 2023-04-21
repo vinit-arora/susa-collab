@@ -11,6 +11,7 @@ import { FeatureFacadeService } from '../../services/feature-facade.service';
  
 import 'firebase/compat/database';
 import { Observable } from 'rxjs';
+import { Notification } from '../../models/notification.model';
  
  
  
@@ -51,6 +52,7 @@ export class FeedComponent implements OnChanges,OnInit{
   isHidden: boolean[]=[];
   emojiToggle: boolean = false;
   commentList: Map<String,Observable< any[]>> = new Map();
+  
   currentCommentIndex:number=0;
   
 
@@ -87,7 +89,7 @@ export class FeedComponent implements OnChanges,OnInit{
     });
   }
   
-  handleComment(postId:String) {
+  handleComment(postId:String, postAuthorUid:any) {
      
     console.log("postText" )
      
@@ -101,7 +103,11 @@ export class FeedComponent implements OnChanges,OnInit{
                                      
                                  }
 
-              
+    const notification: Notification={
+          content:this.profile.displayName+"commented on your post",
+          seen:false,
+          createdAt:new Date()
+    }      
                                 
    
     
@@ -109,7 +115,8 @@ export class FeedComponent implements OnChanges,OnInit{
 
 
     this.featureFacade.postComment(comment,postId);
-
+    // this.featureFacade.notifyNewComment(postAuthorUid,notification);
+    
     this.textInputs.toArray()[this.currentCommentIndex].nativeElement.innerHTML = "";
     this.fileInput.nativeElement.innerHTML="";
     this.textArea = "";
@@ -145,11 +152,17 @@ export class FeedComponent implements OnChanges,OnInit{
     
       this.isHidden[index] = !this.isHidden[index];
       this.currentCommentIndex=index;
+
+      
+   
+
       if(this.isHidden[index]==false)
         this.featureFacade.fetchComments(postId).then((x)=>{
           console.log(x)
           this.commentList.set(postId,x)
-          // console.log(this.commentList)
+          const commentList= this.commentList.get(postId.toString());
+
+         
         });
       
      

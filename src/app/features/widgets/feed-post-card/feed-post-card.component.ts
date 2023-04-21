@@ -67,7 +67,7 @@ export class FeedPostCardComponent implements OnInit, AfterViewChecked {
       authorUid: this.profile.uid,
       authorName:this.profile.displayName,
       likes: 0,
-      comments: [],
+      comments: 0,
       shares: 0,
     
       isRetweeted: false,
@@ -77,6 +77,8 @@ export class FeedPostCardComponent implements OnInit, AfterViewChecked {
       id:"unknown"
     }
     this.featureFacade.postPost(post);
+    const x={message:"Hello"}
+    // this.featureFacade.notifyNewPost(this.profile.followers|| [],x);
     this.textInput.nativeElement.innerHTML = "";
     this.textArea = "";
     this.url_matches = []

@@ -30,7 +30,7 @@
 
               </div>
               <div>{{post.likes}}</div>
-              <div class="post-info__comments">{{post.comments.length}}</div>
+              <div class="post-info__comments"> {{post.comments}}</div>
 
               <div class="post-info__interactions">
 
@@ -85,9 +85,9 @@
                     class="file-input">
                   <div class="file-preview"></div>
 
-                  <button class="btn btn--tweet" (click)="handleComment(post.id)" style=" margin-left: auto; ">
+                  <!-- <button class="btn btn--tweet" (click)="handleComment(post.id,post.authorUid)" style=" margin-left: auto; ">
                     <span class="btn__text">Comment</span>
-                  </button>
+                  </button> -->
 
                 </div>
               </div>

@@ -72,6 +72,11 @@ export class FirebasePostsService {
     const commentsRef = collection(postRef, 'comments');
     
       addDoc(commentsRef, comment);
+        updateDoc(postRef,{
+        comments: increment(1)
+      })
+     
+    
      
   }
 

@@ -1,7 +1,8 @@
+import { group } from '@angular/animations';
 import { FeatureFacadeService } from '../../services/feature-facade.service';
 import { Component, OnInit } from '@angular/core';
-import { faTwitter, IconDefinition } from '@fortawesome/free-brands-svg-icons';
-import { faBell, faCaretDown, faEnvelope, faHashtag, faHome, faUser , faThermometer0} from '@fortawesome/free-solid-svg-icons';
+import {  IconDefinition } from '@fortawesome/free-brands-svg-icons';
+import { faBell, faCaretDown, faEnvelope, faHashtag, faHome, faUser , faThermometer0, faPeopleGroup} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'twitter-navbar',
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit {
   faTwitter: IconDefinition =  faThermometer0;
   faHome: IconDefinition = faHome;
   faExplore: IconDefinition = faHashtag;
-  faMessage: IconDefinition = faEnvelope;
+  faChannel: IconDefinition = faPeopleGroup;
   faNotification: IconDefinition = faBell;
   faDropdown: IconDefinition = faCaretDown;
   faAccount: IconDefinition = faUser;

@@ -20,7 +20,8 @@ export class MessagesComponent implements OnInit {
   channelName:any;
   textArea: string = "";
   profile: any;
-
+  joinButtonClicked!:boolean;
+  buttonText: string[] = [];
   channelList:Map<string,any>=new Map();
   fileToUpload: File | null = null;
   messages:Observable<any[]>=new Observable;
@@ -29,6 +30,15 @@ export class MessagesComponent implements OnInit {
   
   ngOnInit(): void {
    this.getAllChannels();
+   
+     
+   for( let i=0;i<10;i++){
+     // localStorage.setItem('button+{i}', 'Join');
+    
+    if (!localStorage.getItem('button'+i))  localStorage.setItem('button'+i, 'Join');
+      this.buttonText[i]=localStorage.getItem('button'+i) || 'Join';
+      console.log(localStorage.getItem('button'+i))
+   }
    this.featureFacade.getUserProfile().forEach((x)=>{
     this.profile=x;
     
@@ -59,7 +69,10 @@ export class MessagesComponent implements OnInit {
    
     
   }
-  followChannel(channelName:any){
+  followChannel(channelName:any,i:number){
+     
+    this.buttonText[i]="Requested"
+    localStorage.setItem('button'+i, "Requested")
     this.featureFacade.joinChannel(channelName,this.profile.email);
   }
   
@@ -68,7 +81,7 @@ export class MessagesComponent implements OnInit {
     const messageContent = this.textContainer.nativeElement.innerHTML;
     const message: Partial<Message> = {
                                      content:messageContent,
-                                     createdAt: (new Date()).toString(),
+                                     createdAt: new Date(),
                                       author:{
                                         name:this.profile.displayName,
                                         email:this.profile.email,

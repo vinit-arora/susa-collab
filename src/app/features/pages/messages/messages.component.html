@@ -23,8 +23,8 @@
                                     <img src="{{channel.value.iconURL}}">
                                     <h5>#{{channel.key}} </h5>
                                 </div>
-                                    <button class="join_btn" (click)="followChannel(channel.key)"
-                                        *ngIf="!profile.joinedChannels.includes(channel.key)"> Join</button>
+                                    <button class="join_btn" (click)="followChannel(channel.key,i)"   
+                                        *ngIf="!profile.joinedChannels.includes(channel.key)"> {{ buttonText[i] }}</button>
 
                                 
                             </div>
@@ -42,12 +42,12 @@
                                     alt="sunil"></div> 
                                     <span>@{{message.author.name}} </span>
                                     <br>
-                                    <span class="time_date">{{ message.createdAt | date:'shortTime' }} {{ message.createdAt | date:'mediumDate' }} 
-                                    </span>
+                                    
                             <div class="received_msg">
                                 <div class="received_withd_msg">
                                     <div  [innerHTML]="message.content"> </div>
-                                   
+                                    <span class="time_date">{{ message.createdAt.toDate() | date: ' HH:mm:ss dd/MM/yyyy'}} 
+                                    </span>
                                 </div>
                                 <br>
                             </div>
@@ -59,7 +59,7 @@
                                 <div class="sent_msg">
                                     <div class="sent_withd_msg">
                                     <div  [innerHTML]="message.content"> </div>
-                                    <span class="time_date">{{ message.createdAt | date:'shortTime' }} {{ message.createdAt | date:'mediumDate' }} 
+                                    <span class="time_date">{{message.createdAt.toDate() | date: ' HH:mm:ss dd/MM/yyyy' }} 
                                     </span>
                                     </div>
                                 </div>

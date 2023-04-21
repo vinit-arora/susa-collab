@@ -10,12 +10,19 @@ import { selectAllFeedPosts } from '../store/posts/post-store.selectors';
 import { Message } from '../models/message.model';
 import { Comment } from '../models/comment.model';
 import { from } from 'rxjs';
+import { FirebaseNotificationService } from './firebase-notification.service';
+import { Notification } from '../models/notification.model';
  
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeatureFacadeService {
+  notifyNewComment(postAuthorUid: any, notification: Notification) {
+   this.firebaseNotificationService.notifyNewComment(postAuthorUid,notification);
+  }
+ 
+  
   
  
   
@@ -28,7 +35,8 @@ export class FeatureFacadeService {
     private coreFacade: CoreFacadeService,
     private firebasePostService: FirebasePostsService,
     private firebaseMessageService:FirebaseMessageService,
-    private firebaseFollowService: FirebaseFollowService
+    private firebaseFollowService: FirebaseFollowService,
+    private firebaseNotificationService: FirebaseNotificationService
     
    ) { }
 
@@ -89,6 +97,13 @@ export class FeatureFacadeService {
   joinChannel(channelName: any, email:any) {
    return this.firebaseMessageService.joinChannel(channelName,email);
   }
-  
+  getNotifications(uid: string | undefined) {
+   
+   return this.firebaseNotificationService.getNotifications(uid);
+  }
+  notifyNewPost(followers: any[], x: any) {
+    this.firebaseNotificationService.notifyNewPost(followers,x);
+  }
+
 
 }

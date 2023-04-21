@@ -11,5 +11,5 @@ export interface Post {
   isRetweeted: boolean;
   isShared: boolean;
   isEdited: boolean;
-  comments:Comment[];// array of comments for the post
+  comments:number;// array of comments for the post
 }

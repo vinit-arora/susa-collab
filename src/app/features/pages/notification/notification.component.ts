@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { environment } from "../../../../environments/environment";
-
+import { FeatureFacadeService } from '../../services/feature-facade.service';
+import { UserProfile } from 'src/app/core/models/user-profile.model';
+ 
 @Component({
   selector: 'twitter-notification',
   templateUrl: './notification.component.html',
@@ -11,32 +13,24 @@ export class NotificationComponent implements OnInit {
 
   title = 'af-notification';
   message:any = null;
-  constructor() {}
+  profile!:Partial<UserProfile>;
+  notificationList!:any[];
+  constructor(private featureFacade: FeatureFacadeService) {}
   ngOnInit(): void {
-    this.requestPermission();
-    this.listen();
+    this.featureFacade.getUserProfile().forEach((x)=>{
+    this.profile=x;
+    this.getNotifications();
+    
+     })
   }
-  requestPermission() {
-    const messaging = getMessaging();
-    getToken(messaging, 
-     { vapidKey: environment.firebase.vapidKey}).then(
-       (currentToken) => {
-         if (currentToken) {
-           console.log("Hurraaa!!! we got the token.....");
-           console.log(currentToken);
-         } else {
-           console.log('No registration token available. Request permission to generate one.');
-         }
-     }).catch((err) => {
-        console.log('An error occurred while retrieving token. ', err);
-    });
+  getNotifications() {
+    this.featureFacade.getNotifications(this.profile.uid).then((x)=>{
+       this.notificationList=x;
+      console.log(this.notificationList);
+  
+     });
+   
   }
-  listen() {
-    const messaging = getMessaging();
-    onMessage(messaging, (payload) => {
-      console.log('Message received. ', payload);
-      this.message=payload;
-    });
-  }
+   
 
 }
