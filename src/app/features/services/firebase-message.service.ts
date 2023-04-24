@@ -1,13 +1,9 @@
 import { Observable, shareReplay, take, map } from 'rxjs';
 import { FirebaseAuthService } from '../../core/services/firebase-auth.service';
-import { FeatureFacadeService } from '../services/feature-facade.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { DocumentReference,updateDoc,doc, getFirestore,  arrayUnion, increment, collection, query, getDocs, where, setDoc, addDoc, getDoc, orderBy } from 'firebase/firestore';
+import {  updateDoc, doc, arrayUnion, collection, query, getDocs, addDoc, getDoc, orderBy } from 'firebase/firestore';
 import { Message } from '../models/message.model';
-import { now } from 'moment';
-import * as firebase from 'firebase/app';
-import { Firestore } from '@angular/fire/firestore';
  
 
 @Injectable({
@@ -15,15 +11,15 @@ import { Firestore } from '@angular/fire/firestore';
 })
 export class FirebaseMessageService {
 
-  
-  
-  
+
+
+
 
   postDocumentRef$!: AngularFirestoreCollection<any>;
   postMessages$!: Observable<any>;
   postComment$!: Observable<any>;
   tweetDocumentRef$!: AngularFirestoreDocument<any>;
-   
+
 
 
   constructor(private readonly afs: AngularFirestore, private afAuth: FirebaseAuthService) {
@@ -34,69 +30,60 @@ export class FirebaseMessageService {
       }
     }), take(1)).subscribe();
 
-    
+
   }
 
-  fetchAllChannels=async()=> {
+  fetchAllChannels = async () => {
     const q = query(collection(this.afs.firestore, "channels"));
     const querySnapshot = await getDocs(q);
 
-    const channeList: Map<string, any>=new Map();
-    let i=0;
+    const channeList: Map<string, any> = new Map();
+    let i = 0;
     querySnapshot.forEach((doc) => {
       console.log(doc.id, " => ", doc.data());
-      channeList.set( querySnapshot.docs[i++].id, doc.data());
-     
+      channeList.set(querySnapshot.docs[i++].id, doc.data());
+
     });
-     
+
     return channeList;
   }
-  
-  fetchMessages=async(Id: string) =>{
-    
-  
- 
-    let messages:any[]=[];
-   
- 
-        //  const tq=query(collection(this.afs.firestore,`channels/${Id}/messages`),orderBy('createdAt', 'asc'));
-        //  const tquerySnapshot = await getDocs(tq);
-        //  tquerySnapshot.forEach((doc)=>{
-          
-        //   console.log(doc.data());
-          
-        //   messages.push(doc.data());
 
-          const messageRef = this.afs.collection(`channels/${Id}/messages`, ref => {
-            return ref.orderBy('createdAt', 'asc');
-          });
-          return messageRef.valueChanges()
-    
-    
-    
-  // })
-  // return messages;
-}
+  fetchMessages = async (Id: string) => {
 
-  sendMessage=async(Id:any, message:Message)=>{
-    
-    const channelRef =  doc(this.afs.firestore, 'channels', Id.toString());
+
+
+    let messages: any[] = [];
+
+    const messageRef = this.afs.collection(`channels/${Id}/messages`, ref => {
+      return ref.orderBy('createdAt', 'asc');
+    });
+    return messageRef.valueChanges()
+
+
+
+    // })
+    // return messages;
+  }
+
+  sendMessage = async (Id: any, message: Message) => {
+
+    const channelRef = doc(this.afs.firestore, 'channels', Id.toString());
     const messageRef = collection(channelRef, 'messages');
-    addDoc(messageRef, message);   
+    await addDoc(messageRef, message);
     console.log("Sent")
   }
 
-  joinChannel=async(channelName: any, email:any) =>{
-    const channelRef =  doc(this.afs.firestore, 'channels', channelName.toString());
+  joinChannel = async (channelName: any, email: any) => {
+    const channelRef = doc(this.afs.firestore, 'channels', channelName.toString());
     await updateDoc(channelRef, {
       requestList: arrayUnion(email.toString())
-  });
+    });
 
-    
 
-}
-     
- 
-  
+
+  }
+
+
+
 }
 

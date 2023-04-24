@@ -1,0 +1,27 @@
+.notification {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    width: 70%;  /* Set the width of the notification box to 80% of the screen */
+    margin: 0 auto;  /* Center the notification box with equal left and right margins */
+    background-color: white
+}
+
+.notification img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.notification .message {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color:var(--feature-color);
+}
+.notification .time {
+    margin-left: auto;
+    font-size: 12px;
+   color: red;
+}

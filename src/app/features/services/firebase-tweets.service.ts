@@ -39,7 +39,7 @@ export class FirebasePostsService {
     
   }
 
-  postPosts(tweet: any) {
+  async postPosts(tweet: any) {
     
      
       this.postDocumentRef$.add(tweet)
@@ -61,7 +61,7 @@ export class FirebasePostsService {
       
        
   }
-  postComments(comment: any, postId:String) {
+  async postComments(comment: any, postId:String) {
     
  
     const s=postId.toString();

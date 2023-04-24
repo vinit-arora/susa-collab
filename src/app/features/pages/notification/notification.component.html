@@ -1,5 +1,9 @@
 <ng-container *ngFor="let notification of notificationList  let i = index;">
-  <div>
-    {{notification.content}}
+  <div class="notification">
+    <p class="message"> {{notification.content}}
+      <br><span class="time" style="display: inline">{{notification.createdAt.toDate() | date: ' HH:mm:ss dd/MM/yyyy' }}</span>
+    </p>
   </div>
 </ng-container>
+ 
+   

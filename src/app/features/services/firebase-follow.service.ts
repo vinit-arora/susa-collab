@@ -18,10 +18,13 @@ export class FirebaseFollowService {
 
     }
     followUser=async(currentId:string,id:string)=>{
+      
         const profileRef =  doc(this.afs.firestore, 'profile', currentId);
         await updateDoc(profileRef, {
           following: arrayUnion(id)
-      });
+        })
+    
+    
 
       const profileRef2 =  doc(this.afs.firestore, 'profile', id);
       await updateDoc(profileRef2, {

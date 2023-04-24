@@ -27,22 +27,31 @@ import { addDoc, collection, doc, getDocs, query } from 'firebase/firestore';
           }
         notifyNewPost(Id:string[], message:any){
 
-            Id.forEach((id:string)=>{
+            Id.forEach(async (id:string)=>{
 
                 const channelRef =  doc(this.afs.firestore, 'profile', id);
                 const messageRef = collection(channelRef, 'notification');
-                addDoc(messageRef, message);  
+                await addDoc(messageRef, message);  
             } )
             console.log("Sent")
         }
 
-        notifyNewComment(postAuthorUid:any,notification:any){
+        async notifyNewComment(postAuthorUid:any,notification:any){
              const authorRef = doc(this.afs.firestore, 'profile',postAuthorUid)
              const notificationRef=collection(authorRef,'notification');
-             addDoc(notificationRef,notification);
+             try{
+                 await addDoc(notificationRef,notification);
+                }
+             catch(err){
+
+                }
 
         }
-        notifyNewFollower(){
+        notifyNewFollower(id:any,notification:any){
+            const userRef=doc(this.afs.firestore, 'profile',id);
+            const notificationRef=collection(userRef,'notification');
+            addDoc(notificationRef,notification);
+
 
         }
   }

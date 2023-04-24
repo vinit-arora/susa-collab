@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FeatureFacadeService } from '../../services/feature-facade.service';
 import { UserProfile } from '../../../core/models/user-profile.model';
+import { Notification } from '../../models/notification.model';
  
 
 @Component({
@@ -22,13 +23,25 @@ export class FollowSuggestionComponent implements OnInit {
     console.log("profile data for follow suggestion");
     this.followSuggestionList=x;
     })
+
     
    
   }
-  followUser(id:string){
+  followUser=async(id:string)=>{
     const x=this.profile.uid!;
     // if(!x) x="";
-    this.featureFacade.followUser(x,id);
+    try{
+        await this.featureFacade.followUser(x,id);
+        const notification:Notification={
+          content:this.profile.displayName+" started following you",
+          createdAt:new Date(),
+          seen:false
+        }
+        this.featureFacade.notifyNewFollower(id, notification);
+    }
+    catch{
+
+    }
   }
 
 }

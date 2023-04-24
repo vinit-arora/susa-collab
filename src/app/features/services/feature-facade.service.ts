@@ -18,9 +18,7 @@ import { Notification } from '../models/notification.model';
   providedIn: 'root'
 })
 export class FeatureFacadeService {
-  notifyNewComment(postAuthorUid: any, notification: Notification) {
-   this.firebaseNotificationService.notifyNewComment(postAuthorUid,notification);
-  }
+  
  
   
   
@@ -54,10 +52,13 @@ export class FeatureFacadeService {
   followUser(currentId: string,id:string) {
     return this.firebaseFollowService.followUser(currentId,id)
   }
-  postPost(comment: any) {
+
+
+  // post service
+  async postPost(comment: any) {
     return this.firebasePostService.postPosts(comment);
   }
-  postComment(comment: any,postId: String) {
+  async postComment(comment: any,postId: String) {
     return this.firebasePostService.postComments(comment,postId);
   }
 
@@ -84,6 +85,7 @@ export class FeatureFacadeService {
     this.store.dispatch(PostsAction.fetchAllPosts());
   }
   
+  // channel messaging functions
   fetchAllChannels(){
     return this.firebaseMessageService.fetchAllChannels()
   }
@@ -97,12 +99,22 @@ export class FeatureFacadeService {
   joinChannel(channelName: any, email:any) {
    return this.firebaseMessageService.joinChannel(channelName,email);
   }
+
+
+  // notifications
   getNotifications(uid: string | undefined) {
    
    return this.firebaseNotificationService.getNotifications(uid);
   }
   notifyNewPost(followers: any[], x: any) {
     this.firebaseNotificationService.notifyNewPost(followers,x);
+  }
+  notifyNewComment(postAuthorUid: any, notification: Notification) {
+    this.firebaseNotificationService.notifyNewComment(postAuthorUid,notification);
+  }
+  notifyNewFollower(id:any,notification:any){
+    this.firebaseNotificationService.notifyNewFollower(id,notification);
+
   }
 
 

@@ -89,7 +89,7 @@ export class FeedComponent implements OnChanges,OnInit{
     });
   }
   
-  handleComment(postId:String, postAuthorUid:any) {
+  async handleComment(postId:String, postAuthorUid:any) {
      
     console.log("postText" )
      
@@ -104,7 +104,7 @@ export class FeedComponent implements OnChanges,OnInit{
                                  }
 
     const notification: Notification={
-          content:this.profile.displayName+"commented on your post",
+          content:this.profile.displayName+" commented on your post",
           seen:false,
           createdAt:new Date()
     }      
@@ -114,13 +114,17 @@ export class FeedComponent implements OnChanges,OnInit{
      
 
 
-    this.featureFacade.postComment(comment,postId);
-    // this.featureFacade.notifyNewComment(postAuthorUid,notification);
-    
-    this.textInputs.toArray()[this.currentCommentIndex].nativeElement.innerHTML = "";
-    this.fileInput.nativeElement.innerHTML="";
-    this.textArea = "";
-    this.url_matches = []
+    try {
+      await this.featureFacade.postComment(comment,postId);
+      this.textInputs.toArray()[this.currentCommentIndex].nativeElement.innerHTML = "";
+      this.fileInput.nativeElement.innerHTML="";
+      this.textArea = "";
+      this.url_matches = []
+      this.featureFacade.notifyNewComment(postAuthorUid,notification);
+    } 
+    catch (error) {
+      
+    }
    
     
   }

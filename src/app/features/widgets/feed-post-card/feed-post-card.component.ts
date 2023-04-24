@@ -5,6 +5,7 @@ import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { AfterViewChecked, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { IconDefinition, faImages, faLaughSquint, faPhotoVideo, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { Token } from '@angular/compiler';
+import { Notification } from '../../models/notification.model';
 
 declare const microlink: any;
 @Component({
@@ -58,7 +59,7 @@ export class FeedPostCardComponent implements OnInit, AfterViewChecked {
     };
   }
 
-  handlePost() {
+ async handlePost() {
     
     const postText = this.textContainer.nativeElement.innerHTML;
     const post: Partial<Post> = {
@@ -76,12 +77,19 @@ export class FeedPostCardComponent implements OnInit, AfterViewChecked {
       isEdited: false,
       id:"unknown"
     }
-    this.featureFacade.postPost(post);
-    const x={message:"Hello"}
-    // this.featureFacade.notifyNewPost(this.profile.followers|| [],x);
-    this.textInput.nativeElement.innerHTML = "";
-    this.textArea = "";
-    this.url_matches = []
+   try{
+      await this.featureFacade.postPost(post);
+      this.textInput.nativeElement.innerHTML = "";
+      this.textArea = "";
+      this.url_matches = [];
+      const x:Notification={content:this.profile.displayName+"added a new post",
+                            seen: false,
+                          createdAt:new Date()}
+      this.featureFacade.notifyNewPost(this.profile.followers|| [],x);
+   }
+   catch(err){
+      console.log(err)
+   }
   }
 
   createCustomImage(base64: string) {
